@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FinishLine : MonoBehaviour
 {
@@ -8,8 +9,9 @@ public class FinishLine : MonoBehaviour
     [SerializeField] ParticleSystem finishEffect;
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "Penguin") {
+        if (other.tag == "Player") {
             Debug.Log("You win!");
+            finishEffect.Play();
             Invoke("ReloadScene", loadDelay);
         }
     }
