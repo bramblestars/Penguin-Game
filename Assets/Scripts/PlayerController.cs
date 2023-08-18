@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public class PlayerController : MonoBehaviour
 {
 
     [SerializeField] float torqueAmount = 1f;
-    [SerializeField] float boostSpeed = 30f;
+    [SerializeField] float jumpAmount = 8f;
+    [SerializeField] double maxJumpTime = 1.0;
+    [SerializeField] float airResistance = 2f;
     [SerializeField] float baseSpeed = 20f;
 
     private Rigidbody2D rb2d;
+    private double jumpTime = 0.0;
     SurfaceEffector2D surfaceEffector2D;
 
     // Start is called before the first frame update
@@ -29,10 +31,20 @@ public class PlayerController : MonoBehaviour
 
     void RespondToBoost() 
     {
-        // if we push up, then speed up, otherwise stay normal speed
-        if (UnityEngine.Input.GetKey(KeyCode.UpArrow)) 
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space)) {
+            jumpTime += Time.deltaTime;
+        }
+
+        // if we push up or jump, jump once
+        if (jumpTime > 0.0 && jumpTime < maxJumpTime)
         {
-            surfaceEffector2D.speed = boostSpeed;
+            jumpTime += Time.deltaTime;
+            rb2d.AddForce(Vector2.left * airResistance);
+            rb2d.AddForce(Vector2.up * jumpAmount);
+        } 
+        else if (!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.Space))
+        {
+            jumpTime = 0.0;
         }
     }
 
