@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Script to control snow particles behind penguin
 public class SnowTrail : MonoBehaviour
 {
     [SerializeField] ParticleSystem snowTrail;
@@ -9,7 +10,6 @@ public class SnowTrail : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.tag == "Ground")
         {
-            Debug.Log("hi");
             snowTrail.Play();
         }    
     }

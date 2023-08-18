@@ -10,8 +10,8 @@ public class FinishLine : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
-            Debug.Log("You win!");
             finishEffect.Play();
+            GetComponent<AudioSource>().Play();
             Invoke("ReloadScene", loadDelay);
         }
     }
