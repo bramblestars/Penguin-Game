@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,22 +33,11 @@ public class PlayerController : MonoBehaviour
 
     void RespondToBoost() 
     {
-        if (canJump && Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space)) {
-            jumpTime += Time.deltaTime;
-        }
-
-        // if we push up or jump, jump once
-        if (canJump && jumpTime > 0.0 && jumpTime < maxJumpTime)
-        {
-            jumpTime += Time.deltaTime;
-            Debug.Log(jumpTime);
+         Debug.Log(canJump);
+        if (canJump && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space))) {
             rb2d.velocity += Vector2.up * jumpAmount;
             Debug.Log(rb2d.velocity);
-        } 
-
-        else if (!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.Space))
-        {
-            jumpTime = 0.0;
+            canJump = false;
         }
     }
 
