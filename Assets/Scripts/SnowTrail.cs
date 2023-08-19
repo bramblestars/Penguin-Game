@@ -6,10 +6,16 @@ using UnityEngine;
 public class SnowTrail : MonoBehaviour
 {
     [SerializeField] ParticleSystem snowTrail;
+    public PlayerController playerController;
+
+    private void Start() {
+        playerController = GetComponent<PlayerController>();
+    }
 
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.tag == "Ground")
         {
+            playerController.canJump = true;
             snowTrail.Play();
         }    
     }
@@ -17,6 +23,7 @@ public class SnowTrail : MonoBehaviour
     private void OnCollisionExit2D(Collision2D other) {
         if (other.gameObject.tag == "Ground")
         {
+            playerController.canJump = false;
             snowTrail.Stop();
         }
     }

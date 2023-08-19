@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float torqueAmount = 1f;
     [SerializeField] float jumpAmount = 8f;
     [SerializeField] double maxJumpTime = 1.0;
-    [SerializeField] float airResistance = 2f;
-    [SerializeField] float baseSpeed = 20f;
+
+    public bool canJump = false;
 
     private Rigidbody2D rb2d;
     private double jumpTime = 0.0;
@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
         surfaceEffector2D = FindObjectOfType<SurfaceEffector2D>();
+        jumpTime = 0.0;
     }
 
     // Update is called once per frame
@@ -31,17 +32,19 @@ public class PlayerController : MonoBehaviour
 
     void RespondToBoost() 
     {
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space)) {
+        if (canJump && Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space)) {
             jumpTime += Time.deltaTime;
         }
 
         // if we push up or jump, jump once
-        if (jumpTime > 0.0 && jumpTime < maxJumpTime)
+        if (canJump && jumpTime > 0.0 && jumpTime < maxJumpTime)
         {
             jumpTime += Time.deltaTime;
-            rb2d.AddForce(Vector2.left * airResistance);
-            rb2d.AddForce(Vector2.up * jumpAmount);
+            Debug.Log(jumpTime);
+            rb2d.velocity += Vector2.up * jumpAmount;
+            Debug.Log(rb2d.velocity);
         } 
+
         else if (!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.Space))
         {
             jumpTime = 0.0;
