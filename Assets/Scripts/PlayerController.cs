@@ -11,21 +11,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] double maxOffSnowTime = 0.5;
     [SerializeField] float boostAmount = 1.2f;
     [SerializeField] double maxBoostTimer = 1.0;
+    [SerializeField] int flipScoreIncr = 100;
 
     public bool touchingSnow = false;
-    public bool canJump = true;
-    public bool canBoost = true;
+    public int score = 0;
+
+    private bool canJump = true;
+    private bool canBoost = true;
 
     private Rigidbody2D rb2d;
     private double offSnowTimer = 0.0;
     private double boostTimer = 0.0;
-    SurfaceEffector2D surfaceEffector2D;
 
     // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        surfaceEffector2D = FindObjectOfType<SurfaceEffector2D>();
     }
 
     // Update is called once per frame
@@ -37,6 +38,24 @@ public class PlayerController : MonoBehaviour
         TryBoost();
     }
 
+    /// <summary>
+    /// Whenever the penguin leaves the platform, start a timer so that the
+    /// player is allowed a tiny bit of leeway for jumping.
+    /// </summary>
+    public void SnowExitTimer() 
+    {
+        if (!touchingSnow) {
+            offSnowTimer += Time.deltaTime;
+        } 
+
+        else {
+            offSnowTimer = 0.0;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     void RotatePlayer()
     {
         if (UnityEngine.Input.GetKey(KeyCode.LeftArrow))
@@ -47,6 +66,13 @@ public class PlayerController : MonoBehaviour
         else {
             rb2d.angularVelocity = 0;
         }
+
+        if (rb2d.rotation > 360) {
+            score += flipScoreIncr;
+            rb2d.rotation -= 360;
+        }
+
+        Debug.Log(score);
     }
 
     void TryJump() 
@@ -69,7 +95,7 @@ public class PlayerController : MonoBehaviour
         
         if (boostTimer > 0 && boostTimer < maxBoostTimer) {
             boostTimer += Time.deltaTime;
-            rb2d.AddRelativeForce(Vector2.right * boostAmount);
+            rb2d.velocity = rb2d.velocity.normalized * boostAmount;
         }
 
         if (touchingSnow && canBoost && Input.GetKey(KeyCode.RightArrow)) {
@@ -77,20 +103,17 @@ public class PlayerController : MonoBehaviour
             canBoost = false;
         }
 
-        else if (!Input.GetKey(KeyCode.RightArrow)) {
+        else if (!Input.GetKey(KeyCode.RightArrow) && touchingSnow) {
             canBoost = true;
             boostTimer = 0.0;
         }
     }
 
-    public void SnowExitTimer() 
-    {
-        if (!touchingSnow) {
-            offSnowTimer += Time.deltaTime;
-        } 
-
-        else {
-            offSnowTimer = 0.0;
+    
+    void OnTriggerEnter2D(Collider2D other) {
+        if (other.tag == "Obstacle") {
+            rb2d.velocity = Vector2.zero;
+            Debug.Log("Game Over");
         }
     }
 }
