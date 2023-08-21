@@ -12,9 +12,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float boostAmount = 1.2f;
     [SerializeField] double maxBoostTimer = 1.0;
     [SerializeField] int flipScoreIncr = 100;
+    [SerializeField] int snowflakeScoreIncr = 20;
 
     public bool touchingSnow = false;
     public int score = 0;
+    public double gameTimer = 0.0;
 
     private bool canJump = true;
     private bool canBoost = true;
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        gameTimer += Time.deltaTime;
         SnowExitTimer();
         RotatePlayer();
         TryJump();
@@ -71,8 +74,6 @@ public class PlayerController : MonoBehaviour
             score += flipScoreIncr;
             rb2d.rotation -= 360;
         }
-
-        Debug.Log(score);
     }
 
     void TryJump() 
@@ -111,9 +112,19 @@ public class PlayerController : MonoBehaviour
 
     
     void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "Obstacle") {
-            rb2d.velocity = Vector2.zero;
-            Debug.Log("Game Over");
+        
+        switch(other.tag) 
+        {
+            case "Obstacle":
+                rb2d.velocity = Vector2.zero;
+                Debug.Log("Game Over");
+            break;
+            case "Collectible":
+                score += snowflakeScoreIncr;
+                Destroy(other.gameObject);
+            break;
         }
+
+
     }
 }
