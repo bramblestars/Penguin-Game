@@ -15,15 +15,15 @@ public class SnowTrail : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.tag == "Ground" && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.Space))
         {
-            playerController.canJump = true;
+            playerController.touchingSnow = true;
             snowTrail.Play();
-        }    
+        }
     }
 
     private void OnCollisionExit2D(Collision2D other) {
         if (other.gameObject.tag == "Ground")
         {
-            playerController.canJump = false;
+            playerController.touchingSnow = false;
             snowTrail.Stop();
         }
     }

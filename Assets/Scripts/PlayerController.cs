@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpAmount = 8f;
     [SerializeField] double maxJumpTime = 1.0;
 
-    public bool canJump = false;
+    public bool touchingSnow = false;
+    public bool canJump = true;
 
     private Rigidbody2D rb2d;
     private double jumpTime = 0.0;
@@ -28,17 +29,22 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         RotatePlayer();
-        RespondToBoost();
+        TryJump();
     }
 
-    void RespondToBoost() 
+    void TryJump() 
     {
-         Debug.Log(canJump);
-        if (canJump && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space))) {
+        Debug.Log(touchingSnow);
+        if (touchingSnow && canJump && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space))) {
             rb2d.velocity += Vector2.up * jumpAmount;
-            Debug.Log(rb2d.velocity);
+            jumpTime += Time.deltaTime;
             canJump = false;
+        }  
+
+        else if (!(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space))) {
+            canJump = true;
         }
+        
     }
 
     void RotatePlayer()
@@ -51,6 +57,10 @@ public class PlayerController : MonoBehaviour
         else if (UnityEngine.Input.GetKey(KeyCode.RightArrow))
         {
             rb2d.AddTorque(-torqueAmount);
+        }
+
+        else {
+            rb2d.angularVelocity = 0;
         }
     }
 }
