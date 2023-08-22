@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class CrashDetector : MonoBehaviour
 {
-    [SerializeField] GameObject UIPanel;
+    [SerializeField] UIController UIPanel;
 
     void OnTriggerEnter2D(Collider2D other) 
     {
         if (other.tag == "Ground") {
-            UIPanel.GetComponent<UIController>().GameOver();
+            UIPanel.GameOver();
         }
     }
     

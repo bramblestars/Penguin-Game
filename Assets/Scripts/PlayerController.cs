@@ -14,10 +14,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] double maxBoostTimer = 1.0;
     [SerializeField] int flipScoreIncr = 1000;
     [SerializeField] int snowflakeScoreIncr = 100;
-    [SerializeField] GameObject UIPanel;
+    [SerializeField] UIController UIPanel;
 
     public bool touchingSnow = false;
     public int score = 0;
+    public int timeBonus = 0;
     public double gameTimer = 0.0;
     public bool canControl = true;
 
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
         else 
         {
+            rb2d.gravityScale = 0;
             rb2d.velocity = Vector2.zero;
         }
     }
@@ -129,7 +131,7 @@ public class PlayerController : MonoBehaviour
         {
             case "Obstacle":
                 rb2d.velocity = Vector2.zero;
-                UIPanel.GetComponent<UIController>().GameOver();
+                UIPanel.GameOver();
             break;
             case "Collectible":
                 score += snowflakeScoreIncr;

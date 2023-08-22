@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
     [SerializeField] GameObject gameOverPanel;
     [SerializeField] GameObject youWinPanel;
-    [SerializeField] GameObject penguin;
-    [SerializeField] float timeStopDelay = 1f;
+    [SerializeField] TextMeshProUGUI baseScore;
+    [SerializeField] TextMeshProUGUI timeBonus;
+    [SerializeField] TextMeshProUGUI totalScore;
+    [SerializeField] PlayerController penguin;
 
     public void GameOver() 
     {
@@ -18,6 +22,9 @@ public class UIController : MonoBehaviour
     public void YouWin() 
     {
         activatePanel(youWinPanel);
+        baseScore.text = "score: " + penguin.score.ToString();
+        timeBonus.text = "time bonus: " + penguin.timeBonus.ToString();
+        totalScore.text = "total: " + (penguin.score + penguin.timeBonus).ToString();
     }
 
     public void Restart() 
@@ -27,7 +34,7 @@ public class UIController : MonoBehaviour
 
     private void activatePanel(GameObject panel) 
     {
+        penguin.canControl = false;
         panel.SetActive(true);
-        penguin.GetComponent<PlayerController>().canControl = false;
     }
 }
