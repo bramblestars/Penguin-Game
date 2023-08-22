@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class FinishLine : MonoBehaviour
 {
-    [SerializeField] float loadDelay = 1f;
     [SerializeField] ParticleSystem finishEffect;
     [SerializeField] PlayerController playerController;
 
@@ -13,12 +11,9 @@ public class FinishLine : MonoBehaviour
         if (other.tag == "Player") {
             finishEffect.Play();
             GetComponent<AudioSource>().Play();
-            playerController.score += 5000 / (int)playerController.gameTimer;
-            Debug.Log(playerController.score);
+            playerController.score += 50000 / (int)playerController.gameTimer;
         }
     }
 
-    void ReloadScene() {
-        SceneManager.LoadScene(0);
-    }
+    
 }

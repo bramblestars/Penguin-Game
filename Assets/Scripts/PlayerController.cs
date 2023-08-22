@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -11,12 +12,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] double maxOffSnowTime = 0.5;
     [SerializeField] float boostAmount = 1.2f;
     [SerializeField] double maxBoostTimer = 1.0;
-    [SerializeField] int flipScoreIncr = 100;
-    [SerializeField] int snowflakeScoreIncr = 20;
+    [SerializeField] int flipScoreIncr = 1000;
+    [SerializeField] int snowflakeScoreIncr = 100;
+    [SerializeField] GameObject UIPanel;
 
     public bool touchingSnow = false;
     public int score = 0;
     public double gameTimer = 0.0;
+    public bool canControl = true;
 
     private bool canJump = true;
     private bool canBoost = true;
@@ -28,17 +31,26 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1f;
         rb2d = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        gameTimer += Time.deltaTime;
-        SnowExitTimer();
-        RotatePlayer();
-        TryJump();
-        TryBoost();
+        if (canControl) 
+        {
+            gameTimer += Time.deltaTime;
+            SnowExitTimer();
+            RotatePlayer();
+            TryJump();
+            TryBoost();
+        }
+
+        else 
+        {
+            rb2d.velocity = Vector2.zero;
+        }
     }
 
     /// <summary>
@@ -117,14 +129,12 @@ public class PlayerController : MonoBehaviour
         {
             case "Obstacle":
                 rb2d.velocity = Vector2.zero;
-                Debug.Log("Game Over");
+                UIPanel.GetComponent<UIController>().GameOver();
             break;
             case "Collectible":
                 score += snowflakeScoreIncr;
                 Destroy(other.gameObject);
             break;
         }
-
-
     }
 }
