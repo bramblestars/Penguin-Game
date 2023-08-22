@@ -1,0 +1,7 @@
+make game over screen
+add background objects like clouds
+sound effects on snowflakes
+sound effect for rocks
+particle effect on snowflakes
+boost and jump animations
+menu
