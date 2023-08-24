@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 10c895f17c3b4b143bc51ca6df9298e3
+guid: 9a7011e67781b794faf3efe4d3d30ba1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -116,127 +116,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: penguin_0
+      name: penguin_new_0
       rect:
         serializedVersion: 2
-        x: 30
-        y: 1425
-        width: 592.5
-        height: 475
+        x: 0
+        y: 740
+        width: 548
+        height: 370
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1fe4ae253295804cbb04e8d10156236
-      internalID: 1980120282
+      spriteID: c027a264f85ff014c8503c685b855be1
+      internalID: -1071052662
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: penguin_1
+      name: penguin_new_1
       rect:
         serializedVersion: 2
-        x: 622
-        y: 1425
-        width: 592.5
-        height: 475
+        x: 548
+        y: 740
+        width: 548
+        height: 370
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 235da0bb3e1ccd4488e5551bb86ed60b
-      internalID: 1772771762
+      spriteID: 2a72490f530a13f4cba9a0606b41649c
+      internalID: -173229371
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: penguin_2
+      name: penguin_new_2
       rect:
         serializedVersion: 2
-        x: 1214
-        y: 1425
-        width: 592.5
-        height: 475
+        x: 0
+        y: 370
+        width: 548
+        height: 370
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c59a8249c57ed7e478fdc2dd2ba87e83
-      internalID: 87616633
+      spriteID: 5c0e57d2bd365d84bb5f2a0b05782165
+      internalID: 927488197
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: penguin_3
+      name: penguin_new_3
       rect:
         serializedVersion: 2
-        x: 30
-        y: 950
-        width: 592.5
-        height: 475
+        x: 548
+        y: 370
+        width: 548
+        height: 370
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0aab5c8933bab714b8f091bdd9cccc4c
-      internalID: -511710383
+      spriteID: 199b1b848b4c29e4fa8a8598848c1a77
+      internalID: 1753869054
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: penguin_4
+      name: penguin_new_4
       rect:
         serializedVersion: 2
-        x: 622
-        y: 950
-        width: 592.5
-        height: 475
+        x: 0
+        y: 0
+        width: 548
+        height: 370
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e01effe481a82164997d11d89a4aa529
-      internalID: 1302040618
+      spriteID: cf6ca48bf0b259344b5c983c7688a987
+      internalID: 1593709392
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: penguin_5
+      name: penguin_new_5
       rect:
         serializedVersion: 2
-        x: 1213
-        y: 950
-        width: 592
-        height: 475
+        x: 548
+        y: 0
+        width: 548
+        height: 370
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eac6bff39b8c69c4284b4e0fe9359a9b
-      internalID: 1298510131
+      spriteID: 66ac3117ae05889468624499d1f514b4
+      internalID: 1299073751
       vertices: []
       indices: 
       edges: []
@@ -252,12 +252,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      penguin_4: 1302040618
-      penguin_2: 87616633
-      penguin_5: 1298510131
-      penguin_1: 1772771762
-      penguin_3: -511710383
-      penguin_0: 1980120282
+      penguin_new_3: 1753869054
+      penguin_new_1: -173229371
+      penguin_new_0: -1071052662
+      penguin_new_5: 1299073751
+      penguin_new_4: 1593709392
+      penguin_new_2: 927488197
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

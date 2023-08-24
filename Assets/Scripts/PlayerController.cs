@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    [SerializeField] float torqueAmount = 1f;
+    [SerializeField] float torqueAmount = 20f;
     [SerializeField] float jumpAmount = 8f;
     [SerializeField] double maxOffSnowTime = 0.5;
     [SerializeField] float boostAmount = 1.2f;
@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public int timeBonus = 0;
     public double gameTimer = 0.0;
     public bool canControl = true;
+    public Animator animator;
 
     private bool canJump = true;
     private bool canBoost = true;
@@ -50,7 +51,6 @@ public class PlayerController : MonoBehaviour
 
         else 
         {
-            rb2d.gravityScale = 0;
             rb2d.velocity = Vector2.zero;
         }
     }
@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if (touchingSnow && canBoost && Input.GetKey(KeyCode.RightArrow)) {
+            animator.SetBool("isBoosting", true);
             boostTimer += Time.deltaTime;
             canBoost = false;
         }
@@ -121,6 +122,10 @@ public class PlayerController : MonoBehaviour
         else if (!Input.GetKey(KeyCode.RightArrow) && touchingSnow) {
             canBoost = true;
             boostTimer = 0.0;
+        }
+
+        else if (!Input.GetKey(KeyCode.RightArrow)) {
+            animator.SetBool("isBoosting", false);
         }
     }
 
@@ -131,10 +136,15 @@ public class PlayerController : MonoBehaviour
         {
             case "Obstacle":
                 rb2d.velocity = Vector2.zero;
+                if (other.GetComponent<AudioSource>()) 
+                {
+                    other.GetComponent<AudioSource>().Play();
+                }
                 UIPanel.GameOver();
             break;
             case "Collectible":
                 score += snowflakeScoreIncr;
+                GetComponent<AudioSource>().Play();
                 Destroy(other.gameObject);
             break;
         }

@@ -51,13 +51,16 @@ public class UIController : MonoBehaviour
 
     public void Pause() 
     {
-        Time.timeScale = 0f;
-        ActivatePanel(pauseMenuPanel);
+        if (penguin.canControl) {
+            Time.timeScale = 0f;
+            ActivatePanel(pauseMenuPanel);
+        }
     }
 
     public void Resume() 
     {
         Time.timeScale = 1f;
+        penguin.canControl = true;
         pauseMenuPanel.SetActive(false);
     }
 

@@ -8,11 +8,21 @@ public class SnowTrail : MonoBehaviour
     [SerializeField] ParticleSystem snowTrail;
     public PlayerController playerController;
 
-    private void Start() {
+    private void Start() 
+    {
         playerController = GetComponent<PlayerController>();
     }
 
-    private void OnCollisionEnter2D(Collision2D other) {
+    private void Update() 
+    {
+        if (!playerController.canControl)
+        {
+            snowTrail.Stop();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) 
+    {
         if (other.gameObject.tag == "Ground" && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.Space))
         {
             playerController.touchingSnow = true;
@@ -20,7 +30,8 @@ public class SnowTrail : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other) {
+    private void OnCollisionExit2D(Collision2D other) 
+    {
         if (other.gameObject.tag == "Ground")
         {
             playerController.touchingSnow = false;
