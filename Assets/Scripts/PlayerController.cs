@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 1f;
+        Time.timeScale = 0;
         rb2d = GetComponent<Rigidbody2D>();
     }
 
@@ -75,18 +75,31 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void RotatePlayer()
     {
-        if (UnityEngine.Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             rb2d.AddTorque(torqueAmount);
+        } 
+
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            rb2d.AddTorque(-torqueAmount);
         }
         
-        else {
+        else 
+        {
             rb2d.angularVelocity = 0;
         }
 
-        if (rb2d.rotation > 360) {
+        if (rb2d.rotation >= 360) 
+        {
             score += flipScoreIncr;
             rb2d.rotation -= 360;
+        }
+
+        if (rb2d.rotation <= -360) 
+        {
+            score -= flipScoreIncr;
+            rb2d.rotation += 360;
         }
     }
 
@@ -94,12 +107,14 @@ public class PlayerController : MonoBehaviour
     {
         bool jumpButtonPressed = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space);
 
-        if (offSnowTimer < maxOffSnowTime && canJump && jumpButtonPressed) {
+        if (offSnowTimer < maxOffSnowTime && canJump && jumpButtonPressed) 
+        {
             rb2d.velocity += Vector2.up * jumpAmount;
             canJump = false;
         }  
 
-        else if (!jumpButtonPressed) {
+        else if (!jumpButtonPressed) 
+        {
             canJump = true;
         }
         
@@ -108,23 +123,27 @@ public class PlayerController : MonoBehaviour
     void TryBoost() 
     {
         
-        if (boostTimer > 0 && boostTimer < maxBoostTimer) {
+        if (boostTimer > 0 && boostTimer < maxBoostTimer) 
+        {
             boostTimer += Time.deltaTime;
             rb2d.velocity = rb2d.velocity.normalized * boostAmount;
         }
 
-        if (touchingSnow && canBoost && Input.GetKey(KeyCode.RightArrow)) {
+        if (touchingSnow && canBoost && Input.GetKey(KeyCode.Z)) 
+        {
             animator.SetBool("isBoosting", true);
             boostTimer += Time.deltaTime;
             canBoost = false;
         }
 
-        else if (!Input.GetKey(KeyCode.RightArrow) && touchingSnow) {
+        else if (!Input.GetKey(KeyCode.Z) && touchingSnow) 
+        {
             canBoost = true;
             boostTimer = 0.0;
         }
 
-        else if (!Input.GetKey(KeyCode.RightArrow)) {
+        else if (!Input.GetKey(KeyCode.Z)) 
+        {
             animator.SetBool("isBoosting", false);
         }
     }

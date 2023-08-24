@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject gameOverPanel;
     [SerializeField] GameObject youWinPanel;
     [SerializeField] GameObject pauseMenuPanel;
+    [SerializeField] GameObject instructionsPanel;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] TextMeshProUGUI baseScore;
@@ -33,6 +34,11 @@ public class UIController : MonoBehaviour
         if (Input.GetKey(KeyCode.Escape)) 
         {
             Pause();
+        }
+
+        if (instructionsPanel.activeSelf && Input.GetKey(KeyCode.Return))
+        {
+            DismissInstructions();
         }
     }
 
@@ -67,6 +73,13 @@ public class UIController : MonoBehaviour
     public void Restart() 
     {
         SceneManager.LoadScene(0);
+        instructionsPanel.SetActive(false);
+    }
+
+    public void DismissInstructions()
+    {
+        instructionsPanel.SetActive(false);
+        Time.timeScale = 1f;
     }
 
 
