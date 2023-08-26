@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject youWinPanel;
     [SerializeField] GameObject pauseMenuPanel;
     [SerializeField] GameObject instructionsPanel;
+    [SerializeField] GameObject scoreBoardPanel;
     [SerializeField] TextMeshProUGUI leaderboardScore;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI timerText;
@@ -22,6 +23,8 @@ public class UIController : MonoBehaviour
     [SerializeField] PlayerController penguin;
 
     private double timer = 0.0;
+    private GameObject currentActivePanel;
+    private GameObject previousActivePanel;
 
     void Update() 
     {
@@ -54,7 +57,8 @@ public class UIController : MonoBehaviour
         baseScore.text = scoreText.text;
         timeBonus.text = "time bonus: " + penguin.timeBonus.ToString();
         totalScore.text = "total: " + (penguin.score + penguin.timeBonus).ToString();
-        leaderboardScore.text = totalScore.text;
+        leaderboardScore.text = totalScore.text.Substring(7);
+        previousActivePanel = youWinPanel;
     }
 
     public void Pause() 
@@ -62,6 +66,7 @@ public class UIController : MonoBehaviour
         if (penguin.canControl) {
             Time.timeScale = 0f;
             ActivatePanel(pauseMenuPanel);
+            previousActivePanel = pauseMenuPanel;
         }
     }
 
@@ -69,13 +74,12 @@ public class UIController : MonoBehaviour
     {
         Time.timeScale = 1f;
         penguin.canControl = true;
-        pauseMenuPanel.SetActive(false);
+        currentActivePanel.SetActive(false);
     }
 
     public void Restart() 
     {
         SceneManager.LoadScene(0);
-        instructionsPanel.SetActive(false);
     }
 
     public void DismissInstructions()
@@ -84,11 +88,33 @@ public class UIController : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    public void ShowSubmissionLeaderboard() 
+    {
+        currentActivePanel.SetActive(false);
+        ActivatePanel(scoreBoardPanel);
+    }
+
+    public void ReturnToPreviousPanel() 
+    {
+        currentActivePanel.SetActive(false);
+        previousActivePanel.SetActive(true);
+    }
+
 
     private void ActivatePanel(GameObject panel) 
     {
-        penguin.canControl = false;
+        if (currentActivePanel)
+        {
+            // turn off current active panel first
+            currentActivePanel.SetActive(false);
+        }
+        
+        // turn on new panel
         panel.SetActive(true);
+
+        currentActivePanel = panel;
+
+        penguin.canControl = false;
     }
 
     private string GetTime() 
