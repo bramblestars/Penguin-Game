@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
+using TMPro;
 
 public class FinishLine : MonoBehaviour
 {
@@ -16,6 +16,4 @@ public class FinishLine : MonoBehaviour
             uiController.YouWin();
         }
     }
-
-    
 }

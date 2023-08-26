@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject youWinPanel;
     [SerializeField] GameObject pauseMenuPanel;
     [SerializeField] GameObject instructionsPanel;
+    [SerializeField] TextMeshProUGUI leaderboardScore;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] TextMeshProUGUI baseScore;
@@ -53,6 +54,7 @@ public class UIController : MonoBehaviour
         baseScore.text = scoreText.text;
         timeBonus.text = "time bonus: " + penguin.timeBonus.ToString();
         totalScore.text = "total: " + (penguin.score + penguin.timeBonus).ToString();
+        leaderboardScore.text = totalScore.text;
     }
 
     public void Pause() 
