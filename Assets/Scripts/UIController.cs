@@ -14,6 +14,10 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject pauseMenuPanel;
     [SerializeField] GameObject instructionsPanel;
     [SerializeField] GameObject scoreBoardPanel;
+    [SerializeField] GameObject namesAndScores;
+    [SerializeField] GameObject submissionSection;
+
+
     [SerializeField] TextMeshProUGUI leaderboardScore;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI timerText;
@@ -21,10 +25,16 @@ public class UIController : MonoBehaviour
     [SerializeField] TextMeshProUGUI timeBonus;
     [SerializeField] TextMeshProUGUI totalScore;
     [SerializeField] PlayerController penguin;
+    private AudioSource crashSound;
 
     private double timer = 0.0;
     private GameObject currentActivePanel;
     private GameObject previousActivePanel;
+
+    void Start() 
+    {
+        currentActivePanel = instructionsPanel;
+    }
 
     void Update() 
     {
@@ -84,20 +94,30 @@ public class UIController : MonoBehaviour
 
     public void DismissInstructions()
     {
-        instructionsPanel.SetActive(false);
-        Time.timeScale = 1f;
+        Resume();
     }
 
     public void ShowSubmissionLeaderboard() 
     {
         currentActivePanel.SetActive(false);
         ActivatePanel(scoreBoardPanel);
+        submissionSection.SetActive(true);
+        namesAndScores.transform.localPosition = Vector3.zero;
+    }
+
+    public void ShowLeaderboard() 
+    {
+        currentActivePanel.SetActive(false);
+        ActivatePanel(scoreBoardPanel);
+        submissionSection.SetActive(false);
+        namesAndScores.transform.localPosition = new Vector3(-205, 20, 0);
     }
 
     public void ReturnToPreviousPanel() 
     {
         currentActivePanel.SetActive(false);
         previousActivePanel.SetActive(true);
+        currentActivePanel = previousActivePanel;
     }
 
 

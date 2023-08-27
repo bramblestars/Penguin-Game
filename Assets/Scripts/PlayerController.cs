@@ -1,4 +1,4 @@
-using System;
+ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     private bool canJump = true;
     private bool canBoost = true;
+    private bool crashPlayed = false;
 
     private Rigidbody2D rb2d;
     private double offSnowTimer = 0.0;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         Time.timeScale = 0;
+        canControl = false;
         rb2d = GetComponent<Rigidbody2D>();
     }
 
@@ -155,9 +157,10 @@ public class PlayerController : MonoBehaviour
         {
             case "Obstacle":
                 rb2d.velocity = Vector2.zero;
-                if (other.GetComponent<AudioSource>()) 
+                if (other.GetComponent<AudioSource>() && !crashPlayed) 
                 {
                     other.GetComponent<AudioSource>().Play();
+                    crashPlayed = false;
                 }
                 UIPanel.GameOver();
             break;
