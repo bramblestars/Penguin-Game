@@ -94,6 +94,11 @@ public class UIController : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
     public void DismissInstructions()
     {
         currentActivePanel = instructionsPanel;
