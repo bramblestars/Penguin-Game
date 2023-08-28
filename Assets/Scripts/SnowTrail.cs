@@ -25,7 +25,6 @@ public class SnowTrail : MonoBehaviour
     {
         if (other.gameObject.tag == "Ground" && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.Space))
         {
-            playerController.touchingSnow = true;
             snowTrail.Play();
         }
     }
@@ -34,7 +33,6 @@ public class SnowTrail : MonoBehaviour
     {
         if (other.gameObject.tag == "Ground")
         {
-            playerController.touchingSnow = false;
             snowTrail.Stop();
         }
     }

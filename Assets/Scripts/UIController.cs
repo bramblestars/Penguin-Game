@@ -14,11 +14,13 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject pauseMenuPanel;
     [SerializeField] GameObject instructionsPanel;
     [SerializeField] GameObject scoreBoardPanel;
-    [SerializeField] GameObject namesAndScores;
-    [SerializeField] GameObject submissionSection;
+    [SerializeField] GameObject optionsPanel;
+    [SerializeField] GameObject creditsPanel;
 
 
     [SerializeField] TextMeshProUGUI leaderboardScore;
+    [SerializeField] GameObject namesAndScores;
+    [SerializeField] GameObject submissionSection;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] TextMeshProUGUI baseScore;
@@ -31,12 +33,12 @@ public class UIController : MonoBehaviour
     private GameObject currentActivePanel;
     private GameObject previousActivePanel;
 
-    void Start() 
+    private void Start() 
     {
         currentActivePanel = instructionsPanel;
     }
 
-    void Update() 
+    private void Update() 
     {
         if (penguin.canControl) 
         {
@@ -94,6 +96,7 @@ public class UIController : MonoBehaviour
 
     public void DismissInstructions()
     {
+        currentActivePanel = instructionsPanel;
         Resume();
     }
 
@@ -111,6 +114,18 @@ public class UIController : MonoBehaviour
         ActivatePanel(scoreBoardPanel);
         submissionSection.SetActive(false);
         namesAndScores.transform.localPosition = new Vector3(-205, 20, 0);
+    }
+
+    public void ShowOptions() 
+    {
+        currentActivePanel.SetActive(false);
+        ActivatePanel(optionsPanel);
+    }
+
+    public void ShowCredits()
+    {
+        currentActivePanel.SetActive(false);
+        ActivatePanel(creditsPanel);
     }
 
     public void ReturnToPreviousPanel() 

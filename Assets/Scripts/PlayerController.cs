@@ -9,12 +9,12 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float torqueAmount = 20f;
     [SerializeField] float jumpAmount = 8f;
-    [SerializeField] double maxOffSnowTime = 0.5;
     [SerializeField] float boostAmount = 1.2f;
     [SerializeField] double maxBoostTimer = 1.0;
     [SerializeField] int flipScoreIncr = 1000;
     [SerializeField] int snowflakeScoreIncr = 100;
     [SerializeField] UIController UIPanel;
+    [SerializeField] GameObject zoomEffect;
 
     public bool touchingSnow = false;
     public int score = 0;
@@ -25,15 +25,16 @@ public class PlayerController : MonoBehaviour
 
     private bool canJump = true;
     private bool canBoost = true;
-    private bool crashPlayed = false;
+    private bool crashPlayed;
 
     private Rigidbody2D rb2d;
-    private double offSnowTimer = 0.0;
+    private double jumpTimer = 0.0;
     private double boostTimer = 0.0;
 
     // Start is called before the first frame update
     void Start()
     {
+        zoomEffect.SetActive(false);
         Time.timeScale = 0;
         canControl = false;
         rb2d = GetComponent<Rigidbody2D>();
@@ -45,7 +46,6 @@ public class PlayerController : MonoBehaviour
         if (canControl) 
         {
             gameTimer += Time.deltaTime;
-            SnowExitTimer();
             RotatePlayer();
             TryJump();
             TryBoost();
@@ -54,21 +54,6 @@ public class PlayerController : MonoBehaviour
         else 
         {
             rb2d.velocity = Vector2.zero;
-        }
-    }
-
-    /// <summary>
-    /// Whenever the penguin leaves the platform, start a timer so that the
-    /// player is allowed a tiny bit of leeway for jumping.
-    /// </summary>
-    public void SnowExitTimer() 
-    {
-        if (!touchingSnow) {
-            offSnowTimer += Time.deltaTime;
-        } 
-
-        else {
-            offSnowTimer = 0.0;
         }
     }
 
@@ -109,8 +94,9 @@ public class PlayerController : MonoBehaviour
     {
         bool jumpButtonPressed = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space);
 
-        if (offSnowTimer < maxOffSnowTime && canJump && jumpButtonPressed) 
+        if (canJump && jumpButtonPressed && touchingSnow) 
         {
+            jumpTimer += Time.deltaTime;
             rb2d.velocity += Vector2.up * jumpAmount;
             canJump = false;
         }  
@@ -125,7 +111,7 @@ public class PlayerController : MonoBehaviour
     void TryBoost() 
     {
         
-        if (boostTimer > 0 && boostTimer < maxBoostTimer) 
+        if (boostTimer > 0 && boostTimer < maxBoostTimer && touchingSnow) 
         {
             boostTimer += Time.deltaTime;
             rb2d.velocity = rb2d.velocity.normalized * boostAmount;
@@ -135,6 +121,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("isBoosting", true);
             boostTimer += Time.deltaTime;
+            zoomEffect.SetActive(true);
             canBoost = false;
         }
 
@@ -148,6 +135,11 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("isBoosting", false);
         }
+
+        if (boostTimer > maxBoostTimer || !touchingSnow || canBoost)
+        {
+            zoomEffect.SetActive(false);
+        }
     }
 
     
@@ -155,20 +147,30 @@ public class PlayerController : MonoBehaviour
         
         switch(other.tag) 
         {
-            case "Obstacle":
-                rb2d.velocity = Vector2.zero;
-                if (other.GetComponent<AudioSource>() && !crashPlayed) 
-                {
-                    other.GetComponent<AudioSource>().Play();
-                    crashPlayed = false;
-                }
-                UIPanel.GameOver();
-            break;
             case "Collectible":
                 score += snowflakeScoreIncr;
                 GetComponent<AudioSource>().Play();
                 Destroy(other.gameObject);
             break;
+            case "CrashPlane":
+                UIPanel.GameOver();    
+            break;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        switch(other.gameObject.tag)
+        {
+            case "Obstacle":
+                rb2d.velocity = Vector2.zero;
+                if (other.gameObject.GetComponent<AudioSource>() && !crashPlayed) 
+                {
+                    other.gameObject.GetComponent<AudioSource>().Play();
+                    crashPlayed = true;
+                }
+                UIPanel.GameOver();
+                break;
         }
     }
 }
