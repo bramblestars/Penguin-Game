@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
         if (rb2d.rotation <= -360) 
         {
-            score -= flipScoreIncr;
+            score += flipScoreIncr;
             rb2d.rotation += 360;
         }
     }

@@ -27,6 +27,7 @@ public class UIController : MonoBehaviour
     [SerializeField] TextMeshProUGUI timeBonus;
     [SerializeField] TextMeshProUGUI totalScore;
     [SerializeField] PlayerController penguin;
+    [SerializeField] private TextMeshProUGUI inputScoreText;
     private AudioSource crashSound;
 
     private double timer = 0.0;
@@ -61,6 +62,8 @@ public class UIController : MonoBehaviour
     public void GameOver() 
     {
         ActivatePanel(gameOverPanel);
+        inputScoreText.text = penguin.score.ToString();
+        previousActivePanel = gameOverPanel;
     }
 
     public void YouWin() 
